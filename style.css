@@ -1,0 +1,95 @@
+
+.nav {
+    background-image: url('dog-purple-glasses-lying-white-veil2.jpg');
+    background-size: cover;
+    background-position: 100%;
+    justify-content: center;
+    height: 300px;
+    
+  } 
+  
+  .center-text {
+    text-align: center;
+  }
+  
+/*Wrapper class around Search Container and the Search button */
+.wrapper {
+   display:flex;
+   justify-content: center;
+   align-items: center;
+}
+/* search container*/
+#search-container {
+   display: inline-block;
+   width: 90%;
+   text-align: center;
+   margin-top: 4%;
+
+}
+/*Styling for search-container input */
+#search-container input {
+    background-color: transparent;
+    width: 40%;
+    border-bottom: 2px solid #110f29;
+    padding: 1em 0.3em;
+}
+/*Styling for Search button */
+#search-container button {
+    padding: 1em 2em;
+    margin-left: 1em;
+    background-color: black;
+    color: #ffffff;
+    border-radius: 10px;
+    margin-top: 0.5em;
+}
+
+/*buttons*/
+#wrapBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+}
+.graphbutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+}
+/*template containing Bootstrap card contents */
+.card-container {
+    display: flex;
+    /*flex-wrap: wrap;*/
+    justify-content: center;
+    align-items: center;
+}
+#mainDiv {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center; /*centers the cards in the middle of the page */
+ 
+}
+.card {
+  margin: 10px; /*space between cards */
+  max-width: 20rem;
+  overflow: hidden; /*hides overflow */
+}
+
+.card-img-top {
+    object-fit: cover; /*ensures the image fills the space without distortion */
+    height: 250px; /*sets a fixed height */
+}
+.card-title {
+    font-weight: bold;
+}
+.card-breedgroup {
+    font-weight: bold;
+}
+.card-textbred {
+    font-size: 15px;
+}
+.card-temperament {
+    font-size: 15px;
+}
+

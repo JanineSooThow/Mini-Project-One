@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Mini Project 1 </title>
+
+    <!--link to external javascript file -->
+    <script defer src="script.js"></script>
+
+    <!--Boostrap JS link -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous">
+    </script>
+
+    <!--Boostrap CSS link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+
+    <!--stylesheet-->
+    <link rel="stylesheet" href="style.css"/>
+
+    <!--boostrap link for echarts-->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+</head>
+
+<header>
+  <div class="nav">
+          <h3 class="navbar text-white center-text m-5">
+              The Dog Breed Library </h3>     
+      </div> 
+</header>
+<br>
+<div style="text-align: center;">
+    <a href="index.html" style="color: black; font-weight: bold;">Return to Main Page</a>
+  </div>
+<br>
+  
+<body>
+    
+    <!-- Prepare a DOM with a defined width and height for ECharts. Code below displays 2 graphs on a page-->
+    <div id="chartone" style="width: 50%;height: 600px; float: left"></div> 
+    <div id="charttwo" style="width: 50%;height: 600px; float: right"></div> 
+    <script type="text/javascript">
+ // get json placeholder data
+
+    fetch('https://api.thedogapi.com/v1/breeds')
+            .then((response) => response.json())
+            .then((json) => {
+
+                console.log(json);
+        //         json.map((item)=>{
+        //         //console.logs(item)
+        //         //item.breed_group checks value of breed_group property of the item object
+        //         // === is the strict equality operator that checks if the value of breed group is equal to string of eg: Herding
+        //         //if condition is true, then 'option.series[0].data[0]++ 'accesses the first element (index 0) of the data array
+        //   if(item.breed_group==="Herding"){option.series[0].data[0]++}
+        //   if(item.breed_group==="Hound"){option.series[0].data[1]++}
+        //   if(item.breed_group==="Non-Sporting"){option.series[0].data[2]++}
+        //   if(item.breed_group==="Sporting"){option.series[0].data[3]++}
+        //   if(item.breed_group==="Terrier"){option.series[0].data[4]++}
+        //   if(item.breed_group==="Toy"){option.series[0].data[5]++}
+        //   if(item.breed_group==="Working"){option.series[0].data[6]++}
+        //   if(item.breed_group===undefined){option.series[0].data[7]++}
+
+        // })
+
+
+        const statistics = json.reduce((statistics, dog) => {
+            // filter out 1 dog that has an empty string as the breed group as this would look wierd on the chart
+            if (dog.breed_group == "") {
+                return statistics
+            } else {
+                return {
+                    ...statistics, // copy the statistics from previous dogs into the new object (on the first call this will just be empty)
+                    [dog.breed_group]: (statistics[dog.breed_group] ?? 0) + 1 // add one to the existing count for this breed group; i.e. existing count + 1, or if the breed group is new 0 + 1 
+                }
+            }
+        }, {})
+/*The code above: This code is performing some data manipulation on a JSON data set that contains information about dogs. 
+It's using the reduce() method to iterate over each dog in the data set and generate some statistics based on their breed group.
+
+The reduce() method takes two arguments: a function and an initial value. In this case, the initial value is an empty object {}. 
+The function takes two parameters, statistics and dog.
+
+For each dog, the function checks if its breed group is an empty string. 
+If it is, the function simply returns the statistics object without making any changes. 
+If the breed group is not empty, the function creates a new object that copies the statistics from previous 
+dogs and adds one to the count for the breed group that this dog belongs to.
+
+the code logs the statistics object to the console and returns it. 
+Then, it calls the createCharts() function with the statistics object as an argument. */
+        console.log(statistics)
+        console.log(Object.keys(statistics))
+        console.log(Object.values(statistics))
+        return statistics
+      })
+      .then(createCharts)
+
+      function createCharts(statistics) {
+        // Display the chart
+        // Initialise the echarts instance based on the prepared dom
+        var chart1 = echarts.init(document.getElementById('chartone'));
+         // Specify the configuration items and data for the chart
+        var chart1Option = {
+            title: {
+            text: 'Dog Breed Categories',
+            },
+        
+            //the xAxis property has an object value that contains a single property 'data' with an array value.
+            xAxis: {
+            //labels on the x axis of the chart
+            axisLabel: {
+                rotate: 90
+            },
+            label: "Breed Group",
+            data: Object.keys(statistics) //["Herding", "Hound","Non-Sporting","Sporting", "Terrier", "Toy", "Working", undefined],
+            },
+            //Used to set the labels on the x axis of a chart
+            yAxis: {
+            label: "Number of Dogs"
+            },
+            series: [
+            {
+                name: 'posts', //name of series of data in the chart
+                type: 'bar', //type of chart to be displayed
+                data: Object.values(statistics) //[0, 0, 0, 0, 0, 0, 0, 0] // 8 categories -actual data to be displayed in the chart
+
+            }
+            ]
+        };
+        chart1.setOption(chart1Option);
+
+        // Chart 2 - PIE CHART - To do a Pie Chart - do not have x or y axis labels 
+        //https://apache.github.io/echarts-handbook/en/how-to/chart-types/pie/basic-pie/ (for more info)
+        var chart2 = echarts.init(document.getElementById('charttwo'));
+        // Specify the configuration items and data for the chart
+        var chart2Option = {
+            title: {
+                text: 'Dog Breed Categories',
+            },
+            series: [
+                {  
+            name: 'posts', //name of series of data in the chart
+            type: 'pie', //type of chart to be displayed
+            data: Object.keys(statistics).map((breedGroup) => {
+                return {
+                    name: breedGroup,
+                    value: statistics[breedGroup]
+                }
+            })
+            
+            // [
+            // {name: 'Herding', value: 0},
+            // {name: 'Hound', value: 0},
+            // {name: 'Non-Sporting', value: 0},
+            // {name: 'Sporting', value: 0},
+            // {name: 'Terrier', value: 0},
+            // {name: 'Toy', value: 0},
+            // {name: 'Working', value: 0},
+            // {name: 'Undefined', value: 0}//actual data to be displayed in the chart
+            //     ]
+                }
+            ]
+        };
+        chart2.setOption(chart2Option);
+      }
+     
+    </script>
+    
+  </body>
+</html>
+
+<!--In JavaScript, the map() method is a higher-order function that is used to create 
+a new array by iterating over an existing array and performing some operation on each element.
+The map() method takes a function as an argument, which is applied to each element in the array. 
+The function receives three arguments: the current element being processed, the index of that element, 
+and the original array.
+The function returns a new value for each element in the array, which is then used to create a new array
+ of the same length as the original array. The new array that is created by map() is a copy of the original
+array with the transformed values. The original array is not modified by the map() method.-->

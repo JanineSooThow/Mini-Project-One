@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Mini Project 1 </title>
+
+    <!--link to external javascript file -->
+    <script defer src="script.js"></script>
+
+    <!--Boostrap JS link -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous">
+    </script>
+
+    <!--Boostrap CSS link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+
+    <!--stylesheet-->
+    <link rel="stylesheet" href="style.css"/>
+    <!--boostrap link for echarts-->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script> 
+   
+</head>
+    
+<header>
+    <div class="nav">
+            <h3 class="navbar text-white center-text m-5">
+                The Dog Breed Library </h3>     
+        </div> 
+    </div> 
+</header>
+
+
+<body>
+
+    <div class="container"> 
+         <!--search-->
+    <div class="wrapper">
+        <div id="search-container">
+            <input type="search" id="myFilter" placeholder="Search dog by name...">
+            <!--onkeyup="myFunction()" DO NOT REMOVE - Use only if typing in search container and filter -->
+            <button id="search" onclick ="myFunction()">Search</button>
+        </div>
+    </div>
+
+    <!--buttons below search-->
+<div id ="wrapBtn">
+    <div id="myBtnContainer">
+        <button class="btn" onclick="filterSelection('all')"> All </button>
+        <button class="btn" onclick="filterSelection('Herding')"> Herding </button>
+        <button class="btn" onclick="filterSelection('Hound')"> Hound </button>
+        <button class="btn" onclick="filterSelection('Non-Sporting')"> Non-Sporting </button>
+        <button class="btn" onclick="filterSelection('Sporting')"> Sporting </button>
+        <button class="btn" onclick="filterSelection('Terrier')"> Terrier </button>
+        <button class="btn" onclick="filterSelection('Toy')"> Toy </button>
+        <button class="btn" onclick="filterSelection('Working')"> Working </button>
+        <button class="btn" onclick="filterSelection(undefined)"> Other </button> <!--to get dogs with undefined breed. Debugged-->
+        <!--clicking on Graphs button takes the Graphs page-->
+        <button class ="btn" onclick = "document.location = 'Echarts.html'"> Graphs </button>
+    </div>
+</div>
+       <!--Bootstrap cards-->
+       <div class ="card-container">
+        <div class="row" id="mainDiv">
+        </div>
+       </div>
+            <template id="card-template">          
+                        <div class="card">
+                            <img class="card-img-top" src="...">
+                            <div class="card-body">
+                                <h5 class="card-title"></h5>
+                                <p class="card-breedgroup"></p>
+                                <p class="card-textbred"></p>
+                                <p class="card-temperament"></p>
+                            </div>
+                            <div class="card-footer">
+                            <small class="text-lifespan"></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+   
+</body>
+</html>
